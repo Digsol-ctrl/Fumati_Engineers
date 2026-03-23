@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Fumati Engineers | Turning Steel Into Gold</title>
+  <!-- Google Fonts for clean, professional typography -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <!-- Font Awesome 6 (free icons) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f9fafb;
+      color: #1a2a32;
+      line-height: 1.5;
+      overflow-x: hidden;
+    }
+
+    /* ---------- LOADER (green background, tagline) ---------- */
+    .loader-wrapper {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #0f3b2c;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.1), visibility 0.8s;
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .loader-content {
+      text-align: center;
+      animation: fadeSlideUp 1s ease forwards;
+    }
+
+    .loader-tagline {
+      font-size: clamp(1.8rem, 7vw, 3.5rem);
+      font-weight: 700;
+      color: #FFD966;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+      background: linear-gradient(135deg, #FFE6A3, #FFC857);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      text-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      margin-bottom: 1rem;
+    }
+
+    .loader-sub {
+      font-size: 1rem;
+      font-weight: 400;
+      color: #cfebdd;
+      letter-spacing: 2px;
+      word-break: keep-all;
+    }
+
+    .spinner {
+      width: 48px;
+      height: 48px;
+      border: 4px solid rgba(255, 255, 255, 0.2);
+      border-top: 4px solid #FFD966;
+      border-radius: 50%;
+      margin: 24px auto 0;
+      animation: spin 1s infinite linear;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes fadeSlideUp {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Main website - initially hidden until loader hides */
+    .main-site {
+      opacity: 0;
+      transition: opacity 0.6s ease;
+    }
+
+    /* ----- global styles ----- */
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    section {
+      padding: 80px 0;
+    }
+
+    h1, h2, h3 {
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    h2 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      color: #0f3b2c;
+    }
+
+    .section-subhead {
+      font-size: 1.2rem;
+      color: #4a5b66;
+      max-width: 700px;
+      margin-bottom: 3rem;
+      border-left: 4px solid #FFC857;
+      padding-left: 20px;
+    }
+
+    .btn {
+      display: inline-block;
+      background-color: #0f3b2c;
+      color: white;
+      font-weight: 600;
+      padding: 12px 28px;
+      border-radius: 40px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 2px solid #0f3b2c;
+      color: #0f3b2c;
+    }
+
+    .btn-outline:hover {
+      background: #0f3b2c;
+      color: white;
+    }
+
+    .btn:hover {
+      background-color: #072419;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+
+    /* Header / Nav */
+    header {
+      background: white;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(0px);
+    }
+
+    .nav-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      padding: 20px 32px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-img {
+      height: 55px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .brand-name {
+      font-weight: 800;
+      font-size: 1.5rem;
+      color: #0f3b2c;
+      letter-spacing: -0.5px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      font-weight: 500;
+      color: #1e2f3a;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: #FFB347;
+    }
+
+    /* Hero */
+    .hero {
+      background: linear-gradient(105deg, #ffffff 0%, #f1f6f2 100%);
+      padding: 60px 0 80px;
+    }
+
+    .hero-grid {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 40px;
+      justify-content: space-between;
+    }
+
+    .hero-content {
+      flex: 1;
+    }
+
+    .hero-badge {
+      background: #e9f3ef;
+      color: #0f3b2c;
+      padding: 6px 14px;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 0.8rem;
+      display: inline-block;
+      margin-bottom: 20px;
+    }
+
+    .hero-content h1 {
+      font-size: 3.3rem;
+      line-height: 1.2;
+      margin-bottom: 20px;
+      color: #0a2c21;
+    }
+
+    .highlight {
+      color: #C97E0A;
+      position: relative;
+    }
+
+    .hero-desc {
+      font-size: 1.1rem;
+      color: #3a4e5c;
+      margin-bottom: 32px;
+      max-width: 550px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 32px;
+      margin-top: 24px;
+    }
+
+    .stat span {
+      font-weight: 800;
+      font-size: 1.8rem;
+      color: #0f3b2c;
+    }
+
+    .hero-image {
+      flex: 0.8;
+      text-align: center;
+    }
+
+    .hero-image img {
+      width: 100%;
+      height: auto;
+      border-radius: 20px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+      object-fit: cover;
+      max-height: 500px;
+    }
+
+    /* Services grid */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 32px;
+      margin-top: 20px;
+    }
+
+    .service-card {
+      background: white;
+      padding: 32px 24px;
+      border-radius: 24px;
+      box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05);
+      transition: all 0.3s;
+      border-bottom: 4px solid transparent;
+    }
+
+    .service-card:hover {
+      transform: translateY(-8px);
+      border-bottom-color: #FFC857;
+      box-shadow: 0 20px 30px -12px rgba(0,0,0,0.1);
+    }
+
+    .service-icon {
+      font-size: 2.8rem;
+      color: #0f3b2c;
+      margin-bottom: 20px;
+    }
+
+    .service-card h3 {
+      font-size: 1.6rem;
+      margin-bottom: 12px;
+    }
+
+    /* Portfolio */
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+
+    .portfolio-item {
+      background: white;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 12px 28px rgba(0,0,0,0.08);
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+
+    .portfolio-item:hover {
+      transform: scale(1.03);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    }
+
+    .portfolio-img {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      background: linear-gradient(135deg, #1f4e3b, #0f3b2c);
+    }
+
+    .portfolio-info {
+      padding: 24px;
+    }
+
+    .portfolio-info h3 {
+      font-size: 1.4rem;
+      margin-bottom: 8px;
+      color: #0f3b2c;
+    }
+
+    .portfolio-info p {
+      color: #4a5b66;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    /* Team & Credibility section */
+    .credibility {
+      background: #f0f5f2;
+    }
+
+    .team-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin-top: 40px;
+    }
+
+    .team-card img {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    }
+
+    .awards-section {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-top: 40px;
+    }
+
+    .award-item img {
+      width: 100%;
+      height: auto;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    }
+
+    .client-logos {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 30px;
+      align-items: center;
+      margin-top: 40px;
+    }
+
+    .logo-placeholder {
+      font-weight: 700;
+      color: #1f4e3b;
+      opacity: 0.7;
+      font-size: 1.2rem;
+    }
+
+    /* Contact section */
+    .contact-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 48px;
+      background: white;
+      border-radius: 40px;
+      padding: 48px;
+      box-shadow: 0 20px 35px -12px rgba(0,0,0,0.05);
+    }
+
+    .contact-info {
+      flex: 1;
+    }
+
+    .contact-detail {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      margin-bottom: 28px;
+    }
+
+    .contact-detail i {
+      font-size: 1.8rem;
+      color: #0f3b2c;
+      width: 40px;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 20px;
+      margin-top: 30px;
+    }
+
+    .social-links a {
+      background: #eef3f0;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #0f3b2c;
+      font-size: 1.5rem;
+      transition: all 0.2s;
+      text-decoration: none;
+    }
+
+    .social-links a:hover {
+      background: #0f3b2c;
+      color: white;
+    }
+
+    .contact-form {
+      flex: 1;
+    }
+
+    .input-group {
+      margin-bottom: 20px;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 14px 20px;
+      border: 1px solid #ddd;
+      border-radius: 32px;
+      font-family: inherit;
+      font-size: 1rem;
+      transition: 0.2s;
+    }
+
+    textarea {
+      border-radius: 24px;
+      resize: vertical;
+    }
+
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: #0f3b2c;
+      box-shadow: 0 0 0 3px rgba(15, 59, 44, 0.1);
+    }
+
+    /* Gallery Section */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-top: 40px;
+    }
+
+    .gallery-item {
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+      transition: transform 0.3s;
+      height: 220px;
+    }
+
+    .gallery-item:hover {
+      transform: scale(1.05);
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    footer {
+      background: #0a2c21;
+      color: #cbdcd3;
+      text-align: center;
+      padding: 32px 20px;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 768px) {
+      .nav-container {
+        flex-direction: column;
+        gap: 16px;
+      }
+      .hero-content h1 {
+        font-size: 2.3rem;
+      }
+      section {
+        padding: 50px 0;
+      }
+      .container {
+        padding: 0 20px;
+      }
+      .contact-grid {
+        padding: 28px;
+        flex-direction: column;
+      }
+      .hero-grid {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+<!-- LOADER with green background + tagline -->
+<div class="loader-wrapper" id="loaderWrapper">
+  <div class="loader-content">
+    <div class="loader-tagline">Turning Steel Into Gold</div>
+    <div class="loader-sub">Fumati Engineers · Precision & Strength</div>
+    <div class="spinner"></div>
+  </div>
+</div>
+
+<main class="main-site" id="mainSite">
+  <!-- Header -->
+  <header>
+    <div class="nav-container">
+      <div class="logo-area">
+        <img class="logo-img" src="static_files/Fumati_Engineers_logo.jpg" alt="Fumati Engineers Logo" onerror="this.style.display='none'">
+        <span class="brand-name">FUMATI ENGINEERS</span>
+      </div>
+      <ul class="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#portfolio">Portfolio</a></li>
+        <li><a href="#leadership">Leadership</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <!-- Hero section -->
+  <section id="home" class="hero">
+    <div class="container hero-grid">
+      <div class="hero-content">
+        <div class="hero-badge"><i class="fas fa-hard-hat"></i> Since 2008 | Zimbabwe's Trusted Engineers</div>
+        <h1>Turning <span class="highlight">Steel</span> Into <span class="highlight">Gold</span><br> Excellence in Engineering</h1>
+        <p class="hero-desc">Structural, Mechanical & Steel fabrication specialists delivering world-class industrial solutions. We've completed 120+ iconic projects with precision, integrity, and innovation — from massive steel structures to complex mechanical systems.</p>
+        <a href="#contact" class="btn">Get a quote <i class="fas fa-arrow-right"></i></a>
+        <div class="hero-stats">
+          <div class="stat"><span>15+</span><br>Years experience</div>
+          <div class="stat"><span>120+</span><br>Projects completed</div>
+          <div class="stat"><span>50+</span><br>Team members</div>
+        </div>
+      </div>
+      <div class="hero-image">
+        <img src="static_files/Engineers_AT_WORK.jpg" alt="Fumati Engineers team at work" onerror="this.src='static_files/building_Structure_CONSTRUCTION.jpg'">
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Section -->
+  <section id="services">
+    <div class="container">
+      <h2>Core Engineering Capabilities</h2>
+      <div class="section-subhead">Specialized in mechanical, structural & steel fabrication — delivering robust infrastructure.</div>
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon"><i class="fas fa-drafting-compass"></i></div>
+          <h3>Structural Engineering</h3>
+          <p>Analysis, design, and execution of commercial & industrial steel structures, high-rise frameworks, and seismic-resistant systems.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><i class="fas fa-cogs"></i></div>
+          <h3>Mechanical Engineering</h3>
+          <p>Heavy machinery installation, conveyor systems, HVAC industrial solutions, and full mechanical plant maintenance.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><i class="fas fa-fire"></i></div>
+          <h3>Steel Fabrication</h3>
+          <p>Custom steel components, welding, laser cutting, structural beams, railings, and heavy plate work with ISO-grade quality.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><i class="fas fa-hard-hat"></i></div>
+          <h3>General Engineering</h3>
+          <p>Turnkey engineering solutions: site supervision, reverse engineering, maintenance contracts, and bespoke industrial upgrades.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Portfolio / Major Projects showcase -->
+  <section id="portfolio">
+    <div class="container">
+      <h2>Iconic Projects & Credibility</h2>
+      <div class="section-subhead">Proven track record — landmark structures that define modern engineering across Zimbabwe.</div>
+      <div class="portfolio-grid">
+        <div class="portfolio-item">
+          <img src="static_files/The_Heart_Stadium.jpg" alt="The Heart Stadium Construction" class="portfolio-img" onerror="this.src='static_files/building_Structure_CONSTRUCTION.jpg'">
+          <div class="portfolio-info">
+            <h3>The Heart Stadium</h3>
+            <p>Full structural steel framework & roofing system for a 35,000-capacity national stadium. Complex cantilever trusses executed within 9 months.</p>
+          </div>
+        </div>
+        <div class="portfolio-item">
+          <img src="static_files/Bridge_Construction.jpg" alt="Bridge Construction Project" class="portfolio-img" onerror="this.src='static_files/Bridge_Construction2.jpg'">
+          <div class="portfolio-info">
+            <h3>River Crossing Bridge</h3>
+            <p>Fabrication and installation of 240 metric tons of structural steel elements with corrosion protection and expansion joints.</p>
+          </div>
+        </div>
+        <div class="portfolio-item">
+          <img src="static_files/building_Structure_CONSTRUCTION.jpg" alt="Industrial Building" class="portfolio-img" onerror="this.src='static_files/building_Structure_CONSTRUCTION1.jpg'">
+          <div class="portfolio-info">
+            <h3>Industrial Complex</h3>
+            <p>Mechanical systems & steel structure for multiple warehouse units — complete MEP coordination and overhead cranes.</p>
+          </div>
+        </div>
+        <div class="portfolio-item">
+          <img src="static_files/Massive_Roofing.jpg" alt="Roofing Project" class="portfolio-img" onerror="this.src='static_files/Massive_Roofing2.jpg'">
+          <div class="portfolio-info">
+            <h3>Large-Scale Roofing</h3>
+            <p>Design, fabrication & erection of massive steel truss systems with integrated ventilation for industrial facilities.</p>
+          </div>
+        </div>
+        <div class="portfolio-item">
+          <img src="static_files/Glass_STRUCTURE.jpg" alt="Glass Structure" class="portfolio-img" onerror="this.src='static_files/Glass_STRucture_Under_CONSTRUCTION.jpg'">
+          <div class="portfolio-info">
+            <h3>Modern Glass Framework</h3>
+            <p>Glass and steel structural integration combining contemporary design with engineering precision.</p>
+          </div>
+        </div>
+        <div class="portfolio-item">
+          <img src="static_files/StructuralENgineering.jpg" alt="Structural Engineering" class="portfolio-img" onerror="this.src='static_files/structural_Engineering.jpg'">
+          <div class="portfolio-info">
+            <h3>Commercial Structures</h3>
+            <p>Advanced structural design implementation with precision, safety compliance, and architectural excellence.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Additional Gallery of Past Work -->
+      <h2 style="margin-top: 80px; margin-bottom: 30px;">Recent Construction Gallery</h2>
+      <div class="gallery-grid">
+        <div class="gallery-item">
+          <img src="static_files/Terraces_CONSTRUCTION.jpg" alt="Terraces construction" onerror="this.src='static_files/Bridge_Construction3.jpg'">
+        </div>
+        <div class="gallery-item">
+          <img src="static_files/building_Structure_CONSTRUCTION3.jpg" alt="Building structure" onerror="this.src='static_files/structural_Engineering2.jpg'">
+        </div>
+        <div class="gallery-item">
+          <img src="static_files/Engineers_AT_WORK2.jpg" alt="Engineers at work" onerror="this.src='static_files/Builders_at_work.jpg'">
+        </div>
+        <div class="gallery-item">
+          <img src="static_files/Fumati_ENgineering_Workshop.jpg" alt="Engineering workshop" onerror="this.src='static_files/at_Office.jpg'">
+        </div>
+        <div class="gallery-item">
+          <img src="static_files/roof_Structures1.jpg" alt="Roof structures" onerror="this.src='static_files/roof_Structures2.jpg'">
+        </div>
+        <div class="gallery-item">
+          <img src="static_files/glassStructureFrames.jpg" alt="Glass frames" onerror="this.src='static_files/Classic_gates.jpg'">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Team & Awards Section -->
+  <section id="team" class="credibility">
+    <div class="container">
+      <h2>Our Team & Achievements</h2>
+      <div class="section-subhead">Award-winning professionals dedicated to engineering excellence.</div>
+      
+      <!-- Team Gallery -->
+      <div class="team-gallery">
+        <div class="team-card">
+          <img src="static_files/fumati_TEam.jpg" alt="Fumati Engineers team" onerror="this.src='static_files/Engineers_AT_WORK.jpg'">
+          <div style="padding: 20px; background: white; text-align: center;">
+            <p style="font-weight: 600; color: #0f3b2c;">Engineering Team</p>
+            <p style="color: #666; font-size: 0.9rem;">50+ skilled professionals</p>
+          </div>
+        </div>
+        <div class="team-card">
+          <img src="static_files/at_Office.jpg" alt="Office operations" onerror="this.src='static_files/Fumati_ENgineering_Workshop.jpg'">
+          <div style="padding: 20px; background: white; text-align: center;">
+            <p style="font-weight: 600; color: #0f3b2c;">Operations Hub</p>
+            <p style="color: #666; font-size: 0.9rem;">State-of-the-art facilities</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Awards & Recognition -->
+      <h2 style="margin-top: 60px; margin-bottom: 30px;">Awards & Recognition</h2>
+      <div class="awards-section">
+        <div class="award-item">
+          <img src="static_files/Fumati_Group_Company_OF_THE_YEAR_AWARD.jpg" alt="Company of the Year Award" onerror="this.src='static_files/Mr Tinashe Award Winning.jpg'">
+        </div>
+        <div class="award-item">
+          <img src="static_files/Mr Tinashe Award Winning.jpg" alt="Award winning recognition" onerror="this.src='static_files/Safety_First_AT_Construction_site_banner.jpg'">
+        </div>
+      </div>
+
+      <!-- Testimonial -->
+      <div style="margin-top: 60px; background: white; border-radius: 24px; padding: 40px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.08);">
+        <i class="fas fa-quote-left" style="font-size: 2rem; color: #FFC857;"></i>
+        <p style="font-size: 1.2rem; max-width: 800px; margin: 20px auto; color: #1a2a32; font-weight: 500;">
+          "Fumati Engineers delivered the Heart Stadium steel structure ahead of schedule — unmatched expertise in fabrication, mechanical integration, and project management. Their attention to detail and safety standards set them apart."
+        </p>
+        <p style="font-weight: 700; color: #0f3b2c;">— Project Director, National Sports Commission</p>
+      </div>
+
+      <div style="margin-top: 40px;">
+        <h3 style="text-align: center; color: #0f3b2c; margin-bottom: 30px;">Trusted by Industry Leaders</h3>
+        <div class="client-logos">
+          <div class="logo-placeholder"><i class="fas fa-check-circle"></i> Infrastructure Authority</div>
+          <div class="logo-placeholder"><i class="fas fa-check-circle"></i> SteelCorp International</div>
+          <div class="logo-placeholder"><i class="fas fa-check-circle"></i> City Council</div>
+          <div class="logo-placeholder"><i class="fas fa-check-circle"></i> Mining Alliance</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Leadership & Management Team Section -->
+  <section id="leadership" style="background: #ffffff; padding: 80px 0;">
+    <div class="container">
+      <h2 style="text-align: center; margin-bottom: 20px;">Leadership & Management</h2>
+      <p class="section-subhead" style="text-align: center; margin-bottom: 60px;">Experienced professionals guiding Fumati Engineers to excellence</p>
+      
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 40px; margin-bottom: 80px;">
+        <!-- Managing Director -->
+        <div style="background: linear-gradient(135deg, #f5f7f6, #ffffff); border-radius: 20px; padding: 32px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.08); transition: transform 0.3s;">
+          <div style="width: 120px; height: 120px; background: #0f3b2c; border-radius: 50%; margin: 0 auto 24px; display: flex; align-items: center; justify-content: center; color: #FFD966; font-size: 3rem;">
+            <i class="fas fa-user-tie"></i>
+          </div>
+          <h3 style="color: #0f3b2c; font-size: 1.4rem; margin-bottom: 8px;">Mr. Tinashe Ndemo</h3>
+          <p style="color: #FFB347; font-weight: 700; margin-bottom: 12px;">Managing Director</p>
+          <p style="color: #4a5b66; font-size: 0.95rem; line-height: 1.6;">15+ years in heavy engineering and steel fabrication. Visionary leader driving innovation and excellence across all operations.</p>
+          <div style="margin-top: 20px; display: flex; justify-content: center; gap: 15px;">
+            <a href="#" style="width: 36px; height: 36px; border-radius: 50%; background: #eef3f0; display: flex; align-items: center; justify-content: center; color: #0f3b2c; text-decoration: none;"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" style="width: 36px; height: 36px; border-radius: 50%; background: #eef3f0; display: flex; align-items: center; justify-content: center; color: #0f3b2c; text-decoration: none;"><i class="fas fa-envelope"></i></a>
+          </div>
+        </div>
+
+        <!-- Technical Director -->
+        <div style="background: linear-gradient(135deg, #f5f7f6, #ffffff); border-radius: 20px; padding: 32px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.08); transition: transform 0.3s;">
+          <div style="width: 120px; height: 120px; background: #0f3b2c; border-radius: 50%; margin: 0 auto 24px; display: flex; align-items: center; justify-content: center; color: #FFD966; font-size: 3rem;">
+            <i class="fas fa-helmet-safety"></i>
+          </div>
+          <h3 style="color: #0f3b2c; font-size: 1.4rem; margin-bottom: 8px;">Eng. Patrick Mkomwe</h3>
+          <p style="color: #FFB347; font-weight: 700; margin-bottom: 12px;">Technical Director</p>
+          <p style="color: #4a5b66; font-size: 0.95rem; line-height: 1.6;">PE, MSc Structural Engineering. Oversees design excellence and structural integrity on all major projects.</p>
+          <div style="margin-top: 20px; display: flex; justify-content: center; gap: 15px;">
+            <a href="#" style="width: 36px; height: 36px; border-radius: 50%; background: #eef3f0; display: flex; align-items: center; justify-content: center; color: #0f3b2c; text-decoration: none;"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" style="width: 36px; height: 36px; border-radius: 50%; background: #eef3f0; display: flex; align-items: center; justify-content: center; color: #0f3b2c; text-decoration: none;"><i class="fas fa-envelope"></i></a>
+          </div>
+        </div>
+
+        <!-- Operations Manager -->
+        <div style="background: linear-gradient(135deg, #f5f7f6, #ffffff); border-radius: 20px; padding: 32px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.08); transition: transform 0.3s;">
+          <div style="width: 120px; height: 120px; background: #0f3b2c; border-radius: 50%; margin: 0 auto 24px; display: flex; align-items: center; justify-content: center; color: #FFD966; font-size: 3rem;">
+            <i class="fas fa-cogs"></i>
+          </div>
+          <h3 style="color: #0f3b2c; font-size: 1.4rem; margin-bottom: 8px;">Ms. Anita Chiweshe</h3>
+          <p style="color: #FFB347; font-weight: 700; margin-bottom: 12px;">Operations Manager</p>
+          <p style="color: #4a5b66; font-size: 0.95rem; line-height: 1.6;">8+ years managing complex fabrication operations. Ensures on-time delivery and quality compliance across all projects.</p>
+          <div style="margin-top: 20px; display: flex; justify-content: center; gap: 15px;">
+            <a href="#" style="width: 36px; height: 36px; border-radius: 50%; background: #eef3f0; display: flex; align-items: center; justify-content: center; color: #0f3b2c; text-decoration: none;"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" style="width: 36px; height: 36px; border-radius: 50%; background: #eef3f0; display: flex; align-items: center; justify-content: center; color: #0f3b2c; text-decoration: none;"><i class="fas fa-envelope"></i></a>
+          </div>
+        </div>
+
+        <!-- Projects Manager -->
+        <div style="background: linear-gradient(135deg, #f5f7f6, #ffffff); border-radius: 20px; padding: 32px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.08); transition: transform 0.3s;">
+          <div style="width: 120px; height: 120px; background: #0f3b2c; border-radius: 50%; margin: 0 auto 24px; display: flex; align-items: center; justify-content: center; color: #FFD966; font-size: 3rem;">
+            <i class="fas fa-project-diagram"></i>
+          </div>
+          <h3 style="color: #0f3b2c; font-size: 1.4rem; margin-bottom: 8px;">Eng. David Mugwagwa</h3>
+          <p style="color: #FFB347; font-weight: 700; margin-bottom: 12px;">Project Manager</p>
+          <p style="color: #4a5b66; font-size: 0.95rem; line-height: 1.6;">PMP certified. Manages multi-million dollar projects with precision coordination and stakeholder communication.</p>
+          <div style="margin-top: 20px; display: flex; justify-content: center; gap: 15px;">
+            <a href="#" style="width: 36px; height: 36px; border-radius: 50%; background: #eef3f0; display: flex; align-items: center; justify-content: center; color: #0f3b2c; text-decoration: none;"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" style="width: 36px; height: 36px; border-radius: 50%; background: #eef3f0; display: flex; align-items: center; justify-content: center; color: #0f3b2c; text-decoration: none;"><i class="fas fa-envelope"></i></a>
+          </div>
+        </div>
+
+        <!-- Safety & Quality Officer -->
+        <div style="background: linear-gradient(135deg, #f5f7f6, #ffffff); border-radius: 20px; padding: 32px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.08); transition: transform 0.3s;">
+          <div style="width: 120px; height: 120px; background: #0f3b2c; border-radius: 50%; margin: 0 auto 24px; display: flex; align-items: center; justify-content: center; color: #FFD966; font-size: 3rem;">
+            <i class="fas fa-check-double"></i>
+          </div>
+          <h3 style="color: #0f3b2c; font-size: 1.4rem; margin-bottom: 8px;">Mr. Valentine Chirundu</h3>
+          <p style="color: #FFB347; font-weight: 700; margin-bottom: 12px;">Safety & Quality Officer</p>
+          <p style="color: #4a5b66; font-size: 0.95rem; line-height: 1.6;">ISO certified professional. Maintains industry-leading safety standards and quality assurance protocols.</p>
+          <div style="margin-top: 20px; display: flex; justify-content: center; gap: 15px;">
+            <a href="#" style="width: 36px; height: 36px; border-radius: 50%; background: #eef3f0; display: flex; align-items: center; justify-content: center; color: #0f3b2c; text-decoration: none;"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" style="width: 36px; height: 36px; border-radius: 50%; background: #eef3f0; display: flex; align-items: center; justify-content: center; color: #0f3b2c; text-decoration: none;"><i class="fas fa-envelope"></i></a>
+          </div>
+        </div>
+
+        <!-- Finance Director -->
+        <div style="background: linear-gradient(135deg, #f5f7f6, #ffffff); border-radius: 20px; padding: 32px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.08); transition: transform 0.3s;">
+          <div style="width: 120px; height: 120px; background: #0f3b2c; border-radius: 50%; margin: 0 auto 24px; display: flex; align-items: center; justify-content: center; color: #FFD966; font-size: 3rem;">
+            <i class="fas fa-chart-line"></i>
+          </div>
+          <h3 style="color: #0f3b2c; font-size: 1.4rem; margin-bottom: 8px;">Mrs. Nomsa Nyoni</h3>
+          <p style="color: #FFB347; font-weight: 700; margin-bottom: 12px;">Finance & Administration</p>
+          <p style="color: #4a5b66; font-size: 0.95rem; line-height: 1.6;">MBA in Finance. Stewards company resources and maintains transparent financial governance.</p>
+          <div style="margin-top: 20px; display: flex; justify-content: center; gap: 15px;">
+            <a href="#" style="width: 36px; height: 36px; border-radius: 50%; background: #eef3f0; display: flex; align-items: center; justify-content: center; color: #0f3b2c; text-decoration: none;"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" style="width: 36px; height: 36px; border-radius: 50%; background: #eef3f0; display: flex; align-items: center; justify-content: center; color: #0f3b2c; text-decoration: none;"><i class="fas fa-envelope"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Industries We Serve Section -->
+  <section style="background: #f0f5f2; padding: 80px 0;">
+    <div class="container">
+      <h2 style="text-align: center; margin-bottom: 20px;">Industries We Serve</h2>
+      <p class="section-subhead" style="text-align: center; margin-bottom: 60px;">Specialized engineering solutions across diverse sectors</p>
+      
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px;">
+        <div style="background: white; padding: 32px; border-radius: 20px; text-align: center; box-shadow: 0 8px 20px rgba(0,0,0,0.05);">
+          <div style="font-size: 3rem; margin-bottom: 20px;"><i class="fas fa-building" style="color: #0f3b2c;"></i></div>
+          <h3 style="color: #0f3b2c; font-size: 1.3rem; margin-bottom: 12px;">Commercial & Office Buildings</h3>
+          <p style="color: #4a5b66; font-size: 0.95rem;">High-rise structures, shopping malls, office complexes with advanced MEP systems.</p>
+        </div>
+
+        <div style="background: white; padding: 32px; border-radius: 20px; text-align: center; box-shadow: 0 8px 20px rgba(0,0,0,0.05);">
+          <div style="font-size: 3rem; margin-bottom: 20px;"><i class="fas fa-industry" style="color: #0f3b2c;"></i></div>
+          <h3 style="color: #0f3b2c; font-size: 1.3rem; margin-bottom: 12px;">Manufacturing & Industrial</h3>
+          <p style="color: #4a5b66; font-size: 0.95rem;">Heavy machinery installation, production facility design, plant automation.</p>
+        </div>
+
+        <div style="background: white; padding: 32px; border-radius: 20px; text-align: center; box-shadow: 0 8px 20px rgba(0,0,0,0.05);">
+          <div style="font-size: 3rem; margin-bottom: 20px;"><i class="fas fa-cube" style="color: #0f3b2c;"></i></div>
+          <h3 style="color: #0f3b2c; font-size: 1.3rem; margin-bottom: 12px;">Mining & Minerals</h3>
+          <p style="color: #4a5b66; font-size: 0.95rem;">Processing plants, support structures, heavy equipment fabrication.</p>
+        </div>
+
+        <div style="background: white; padding: 32px; border-radius: 20px; text-align: center; box-shadow: 0 8px 20px rgba(0,0,0,0.05);">
+          <div style="font-size: 3rem; margin-bottom: 20px;"><i class="fas fa-road" style="color: #0f3b2c;"></i></div>
+          <h3 style="color: #0f3b2c; font-size: 1.3rem; margin-bottom: 12px;">Transportation & Infrastructure</h3>
+          <p style="color: #4a5b66; font-size: 0.95rem;">Bridges, overpasses, toll gates, major infrastructure projects.</p>
+        </div>
+
+        <div style="background: white; padding: 32px; border-radius: 20px; text-align: center; box-shadow: 0 8px 20px rgba(0,0,0,0.05);">
+          <div style="font-size: 3rem; margin-bottom: 20px;"><i class="fas fa-water" style="color: #0f3b2c;"></i></div>
+          <h3 style="color: #0f3b2c; font-size: 1.3rem; margin-bottom: 12px;">Power & Energy</h3>
+          <p style="color: #4a5b66; font-size: 0.95rem;">Hydro stations, electrical substations, transmission structures.</p>
+        </div>
+
+        <div style="background: white; padding: 32px; border-radius: 20px; text-align: center; box-shadow: 0 8px 20px rgba(0,0,0,0.05);">
+          <div style="font-size: 3rem; margin-bottom: 20px;"><i class="fas fa-person-booth" style="color: #0f3b2c;"></i></div>
+          <h3 style="color: #0f3b2c; font-size: 1.3rem; margin-bottom: 12px;">Sports & Entertainment</h3>
+          <p style="color: #4a5b66; font-size: 0.95rem;">Stadiums, arenas, pavilions, event infrastructure.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Our Process/Expertise Section -->
+  <section style="background: #ffffff; padding: 80px 0;">
+    <div class="container">
+      <h2 style="text-align: center; margin-bottom: 20px;">Our Engineering Process</h2>
+      <p class="section-subhead" style="text-align: center; margin-bottom: 60px;">Proven methodology ensuring excellence from concept to completion</p>
+      
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px;">
+        <div style="text-align: center;">
+          <div style="width: 80px; height: 80px; background: #0f3b2c; border-radius: 50%; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.8rem; font-weight: bold;">1</div>
+          <h3 style="color: #0f3b2c; margin-bottom: 12px;">Consultation & Planning</h3>
+          <p style="color: #4a5b66; font-size: 0.95rem;">In-depth project assessment, requirements analysis, and feasibility studies.</p>
+        </div>
+
+        <div style="text-align: center;">
+          <div style="width: 80px; height: 80px; background: #0f3b2c; border-radius: 50%; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.8rem; font-weight: bold;">2</div>
+          <h3 style="color: #0f3b2c; margin-bottom: 12px;">Design & Engineering</h3>
+          <p style="color: #4a5b66; font-size: 0.95rem;">Advanced CAD modeling, structural analysis, and safety compliance.</p>
+        </div>
+
+        <div style="text-align: center;">
+          <div style="width: 80px; height: 80px; background: #0f3b2c; border-radius: 50%; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.8rem; font-weight: bold;">3</div>
+          <h3 style="color: #0f3b2c; margin-bottom: 12px;">Fabrication</h3>
+          <p style="color: #4a5b66; font-size: 0.95rem;">Precision cutting, welding, and component assembly with quality checks.</p>
+        </div>
+
+        <div style="text-align: center;">
+          <div style="width: 80px; height: 80px; background: #0f3b2c; border-radius: 50%; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.8rem; font-weight: bold;">4</div>
+          <h3 style="color: #0f3b2c; margin-bottom: 12px;">Installation & Testing</h3>
+          <p style="color: #4a5b66; font-size: 0.95rem;">Professional on-site installation with rigorous testing protocols.</p>
+        </div>
+
+        <div style="text-align: center;">
+          <div style="width: 80px; height: 80px; background: #0f3b2c; border-radius: 50%; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.8rem; font-weight: bold;">5</div>
+          <h3 style="color: #0f3b2c; margin-bottom: 12px;">Handover & Support</h3>
+          <p style="color: #4a5b66; font-size: 0.95rem;">Full documentation, training, and ongoing maintenance support.</p>
+        </div>
+
+        <div style="text-align: center;">
+          <div style="width: 80px; height: 80px; background: #FFC857; border-radius: 50%; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.8rem; font-weight: bold;"><i class="fas fa-check"></i></div>
+          <h3 style="color: #0f3b2c; margin-bottom: 12px;">Project Closure</h3>
+          <p style="color: #4a5b66; font-size: 0.95rem;">Final inspections, certifications, and long-term warranty programs.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Our Clients Trust Us -->
+  <section style="background: linear-gradient(135deg, #0f3b2c 0%, #1a5844 100%); padding: 80px 0; color: white;">
+    <div class="container">
+      <h2 style="text-align: center; color: white; margin-bottom: 20px;">Why Our Clients Trust Us</h2>
+      <p class="section-subhead" style="text-align: center; color: #cfebdd; border-left-color: #FFD966; margin-bottom: 60px;">Delivering consistent value through professional excellence</p>
+      
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 40px;">
+        <div>
+          <div style="font-size: 2rem; color: #FFD966; margin-bottom: 20px;"><i class="fas fa-award"></i></div>
+          <h3 style="color: #FFE6A3; margin-bottom: 12px;">15+ Years Track Record</h3>
+          <p style="color: #cfebdd;">Proven expertise delivering complex engineering solutions across diverse sectors.</p>
+        </div>
+
+        <div>
+          <div style="font-size: 2rem; color: #FFD966; margin-bottom: 20px;"><i class="fas fa-shield-alt"></i></div>
+          <h3 style="color: #FFE6A3; margin-bottom: 12px;">Safety Excellence</h3>
+          <p style="color: #cfebdd;">ISO certified processes. Zero-accident commitment on all operations.</p>
+        </div>
+
+        <div>
+          <div style="font-size: 2rem; color: #FFD966; margin-bottom: 20px;"><i class="fas fa-rocket"></i></div>
+          <h3 style="color: #FFE6A3; margin-bottom: 12px;">Innovation First</h3>
+          <p style="color: #cfebdd;">Latest CAD tools, fabrication tech, and engineering methodologies.</p>
+        </div>
+
+        <div>
+          <div style="font-size: 2rem; color: #FFD966; margin-bottom: 20px;"><i class="fas fa-users"></i></div>
+          <h3 style="color: #FFE6A3; margin-bottom: 12px;">Expert Team</h3>
+          <p style="color: #cfebdd;">50+ engineers, technicians, and craftspeople with specialized expertise.</p>
+        </div>
+
+        <div>
+          <div style="font-size: 2rem; color: #FFD966; margin-bottom: 20px;"><i class="fas fa-clock"></i></div>
+          <h3 style="color: #FFE6A3; margin-bottom: 12px;">On-Time Delivery</h3>
+          <p style="color: #cfebdd;">Project management excellence. Consistent deadline adherence.</p>
+        </div>
+
+        <div>
+          <div style="font-size: 2rem; color: #FFD966; margin-bottom: 20px;"><i class="fas fa-headset"></i></div>
+          <h3 style="color: #FFE6A3; margin-bottom: 12px;">24/7 Support</h3>
+          <p style="color: #cfebdd;">Responsive technical support and dedicated client coordination.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact section -->
+  <section id="contact">
+    <div class="container">
+      <h2>Let's Forge Your Next Project</h2>
+      <div class="section-subhead">Reach out for consultation, estimates, or engineering partnership.</div>
+      <div class="contact-grid">
+        <div class="contact-info">
+          <div class="contact-detail">
+            <i class="fas fa-phone-alt"></i>
+            <div><strong>Phone</strong><br><a href="tel:+27771960330" style="color: #0f3b2c; text-decoration: none;">077 196 0330</a></div>
+          </div>
+          <div class="contact-detail">
+            <i class="fas fa-envelope"></i>
+            <div><strong>Email</strong><br><a href="mailto:mechanicalengineering18@gmail.com" style="color: #0f3b2c; text-decoration: none;">mechanicalengineering18@gmail.com</a></div>
+          </div>
+          <div class="contact-detail">
+            <i class="fas fa-map-marker-alt"></i>
+            <div><strong>Head Office</strong><br>Engineering Workshop<br>Harare, Zimbabwe</div>
+          </div>
+          <div class="social-links">
+            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+          </div>
+        </div>
+        <div class="contact-form">
+          <form id="contactForm">
+            <div class="input-group">
+              <input type="text" placeholder="Full Name" required>
+            </div>
+            <div class="input-group">
+              <input type="email" placeholder="Email Address" required>
+            </div>
+            <div class="input-group">
+              <input type="tel" placeholder="Phone Number">
+            </div>
+            <div class="input-group">
+              <input type="text" placeholder="Project Type">
+            </div>
+            <div class="input-group">
+              <textarea rows="3" placeholder="Tell us about your engineering needs..."></textarea>
+            </div>
+            <button type="submit" class="btn">Send Inquiry <i class="fas fa-paper-plane"></i></button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p>© 2026 Fumati Engineers — Turning Steel Into Gold. Precision engineering, structural integrity, mechanical excellence.</p>
+      <p style="margin-top: 12px; font-size: 0.8rem;">📍 Zimbabwe | All projects executed with uncompromising safety & quality standards</p>
+    </div>
+  </footer>
+</main>
+
+<script>
+  // Loader with green background + tagline
+  window.addEventListener('DOMContentLoaded', () => {
+    const loader = document.getElementById('loaderWrapper');
+    const mainSite = document.getElementById('mainSite');
+    
+    setTimeout(() => {
+      if (loader) {
+        loader.style.opacity = '0';
+        loader.style.visibility = 'hidden';
+      }
+      if (mainSite) {
+        mainSite.style.opacity = '1';
+      }
+    }, 1800);
+
+    // Form submission
+    const form = document.getElementById('contactForm');
+    if (form) {
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        alert('Thank you for contacting Fumati Engineers. We will reach out within 24 hours.');
+        form.reset();
+      });
+    }
+  });
+
+  // Smooth scroll for nav links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+</script>
+</body>
+</html>
