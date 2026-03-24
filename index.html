@@ -44,7 +44,9 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background-color: #0f3b2c;
+      background: linear-gradient(135deg, #0f3b2c 0%, #0a2c21 50%, #0f3b2c 100%);
+      background-size: 400% 400%;
+      animation: gradientShift 8s ease infinite;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -52,15 +54,63 @@
       transition: opacity 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.1), visibility 0.8s;
       opacity: 1;
       visibility: visible;
+      overflow: hidden;
+    }
+
+    .loader-wrapper::before {
+      content: '';
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(255, 217, 102, 0.15) 0%, transparent 70%);
+      border-radius: 50%;
+      top: -100px;
+      left: -100px;
+      animation: float 6s ease-in-out 0s infinite;
+    }
+
+    .loader-wrapper::after {
+      content: '';
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(207, 235, 221, 0.1) 0%, transparent 70%);
+      border-radius: 50%;
+      bottom: -50px;
+      right: -50px;
+      animation: float 8s ease-in-out 1s infinite reverse;
     }
 
     .loader-content {
       text-align: center;
-      animation: fadeSlideUp 1s ease forwards;
+      animation: fadeSlideUp 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+      position: relative;
+      z-index: 10;
+    }
+
+    .loader-logo {
+      width: 100px;
+      height: 100px;
+      margin: 0 auto 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: logoScale 1.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards, logoPulse 2.5s ease-in-out 0.5s infinite;
+      background: rgba(255, 217, 102, 0.08);
+      border-radius: 50%;
+      border: 2px solid rgba(255, 217, 102, 0.2);
+      box-shadow: 0 0 30px rgba(255, 217, 102, 0.1);
+    }
+
+    .loader-logo img {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+      filter: brightness(1.1) drop-shadow(0 0 8px rgba(255, 217, 102, 0.3));
     }
 
     .loader-tagline {
-      font-size: clamp(1.8rem, 7vw, 3.5rem);
+      font-size: clamp(1.4rem, 5vw, 2.8rem);
       font-weight: 700;
       color: #FFD966;
       letter-spacing: -0.02em;
@@ -69,26 +119,93 @@
       background-clip: text;
       -webkit-background-clip: text;
       color: transparent;
-      text-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      margin-bottom: 1rem;
+      margin-bottom: 12px;
+      animation: textGlow 2s ease-in-out 0.3s infinite;
+      text-shadow: 0 0 20px rgba(255, 217, 102, 0.3);
     }
 
     .loader-sub {
-      font-size: 1rem;
+      font-size: 0.9rem;
       font-weight: 400;
       color: #cfebdd;
       letter-spacing: 2px;
       word-break: keep-all;
+      animation: fadeSlideUp 1.2s ease forwards 0.2s both;
+      opacity: 0;
     }
 
     .spinner {
-      width: 48px;
-      height: 48px;
-      border: 4px solid rgba(255, 255, 255, 0.2);
-      border-top: 4px solid #FFD966;
+      width: 60px;
+      height: 60px;
+      margin: 32px auto 0;
+      position: relative;
+      animation: spinnerEntry 1.2s ease forwards 0.4s both;
+      opacity: 0;
+    }
+
+    .spinner::before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border: 3px solid rgba(255, 255, 255, 0.1);
       border-radius: 50%;
-      margin: 24px auto 0;
-      animation: spin 1s infinite linear;
+      animation: spin 3s linear infinite;
+    }
+
+    .spinner::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border: 3px solid transparent;
+      border-top: 3px solid #FFD966;
+      border-right: 3px solid rgba(255, 217, 102, 0.5);
+      border-radius: 50%;
+      animation: spinReverse 1.8s ease-in-out infinite;
+    }
+
+    @keyframes gradientShift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) translateX(0px); }
+      50% { transform: translateY(-30px) translateX(20px); }
+    }
+
+    @keyframes logoScale {
+      0% {
+        opacity: 0;
+        transform: scale(0.3) rotateZ(-20deg);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1) rotateZ(0deg);
+      }
+    }
+
+    @keyframes logoPulse {
+      0%, 100% {
+        box-shadow: 0 0 20px rgba(255, 217, 102, 0.2), inset 0 0 20px rgba(255, 217, 102, 0.05);
+        transform: scale(1);
+      }
+      50% {
+        box-shadow: 0 0 40px rgba(255, 217, 102, 0.4), inset 0 0 20px rgba(255, 217, 102, 0.1);
+        transform: scale(1.05);
+      }
+    }
+
+    @keyframes textGlow {
+      0%, 100% {
+        filter: drop-shadow(0 0 0px rgba(255, 217, 102, 0.3));
+        text-shadow: 0 0 20px rgba(255, 217, 102, 0.3);
+      }
+      50% {
+        filter: drop-shadow(0 0 10px rgba(255, 217, 102, 0.6));
+        text-shadow: 0 0 30px rgba(255, 217, 102, 0.5);
+      }
     }
 
     @keyframes spin {
@@ -96,9 +213,25 @@
       100% { transform: rotate(360deg); }
     }
 
+    @keyframes spinReverse {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(-360deg); }
+    }
+
     @keyframes fadeSlideUp {
       0% { opacity: 0; transform: translateY(20px); }
       100% { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes spinnerEntry {
+      0% {
+        opacity: 0;
+        transform: scale(0.5);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
     }
 
     /* Main website - initially hidden until loader hides */
@@ -570,6 +703,9 @@
 <!-- LOADER with green background + tagline -->
 <div class="loader-wrapper" id="loaderWrapper">
   <div class="loader-content">
+    <div class="loader-logo">
+      <img src="static_files/Fumati_Engineers_logo.jpg" alt="Fumati Engineers" onerror="this.parentElement.innerHTML='<i class=&quot;fas fa-hammer&quot; style=&quot;font-size: 3rem; color: #FFD966;&quot;></i>'">
+    </div>
     <div class="loader-tagline">Turning Steel Into Gold</div>
     <div class="loader-sub">Fumati Engineers · Precision & Strength</div>
     <div class="spinner"></div>
