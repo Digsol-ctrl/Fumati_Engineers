@@ -15,9 +15,10 @@ window.addEventListener('load', () => {
 const hamburger = document.querySelector('.hamburger');
 const navLinks = document.querySelector('.nav-links');
 
-if (hamburger) {
+if (hamburger && navLinks) {
     hamburger.addEventListener('click', () => {
-        navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+        hamburger.classList.toggle('active');
+        navLinks.classList.toggle('active');
     });
 }
 
@@ -26,7 +27,8 @@ if (navLinks) {
     const links = navLinks.querySelectorAll('a');
     links.forEach(link => {
         link.addEventListener('click', () => {
-            navLinks.style.display = 'none';
+            hamburger.classList.remove('active');
+            navLinks.classList.remove('active');
         });
     });
 }
